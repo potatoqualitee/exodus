@@ -2,7 +2,7 @@ name: "exodus"
 branding:
   icon: "trending-down"
   color: "blue"
-description: "Helps Twitter communities find members on Mastodon. Searches lists, hashtags, account followers and more for Mastodon links and exports them to an importable CSV file."
+description: "Helps Twitter communities find members on Mastodon."
 inputs:
   accounts-following:
     description: "Check who these Twitter users are following and search the results for a Mastodon account"
