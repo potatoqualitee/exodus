@@ -1,0 +1,117 @@
+name: "exodus"
+branding:
+  icon: "trending-down"
+  color: "blue"
+description: "Helps Twitter communities find members on Mastodon. Searches lists, hashtags, account followers and more for Mastodon links and exports them to an importable CSV file."
+inputs:
+  accounts-following:
+    description: "Check who these Twitter users are following and search the results for a Mastodon account"
+    required: false
+  account-followers:
+    description: "Search the followers of these Twitter users for a Mastodon account"
+    required: false
+  list-members:
+    description: "Search the members of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
+    required: false
+  list-followers:
+    description: "Search the followers of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
+    required: false
+  specific-twitter-accounts:
+    description: "Search these specific Twitter accounts to see if they have a Mastodon account"
+    required: false
+  hashtags:
+    description: "Search posts for these hashtags to see if the author has a Mastodon account"
+    required: false
+  include-private:
+    description: "Include accounts marked private. False by default since this can be used to migrate communities."
+    required: false
+    default: "false"
+  my:
+    description: "Search your own follows, followers or list members to see any of them have a Mastodon account. Options include: follows, followers, lists and all"
+    required: false
+  my-specific-list-names:
+    description: "Search your own specific lists"
+    required: false
+  my-specific-list-keywords:
+    description: "Search your own specific lists"
+    required: false
+  mastodon-csv-filepath:
+    description: "The path where the Mastodon import CSV will be stored. Defaults to ./mastodon-import.csv"
+    required: false
+    default: "./mastodon-import.csv"
+  twitter-csv-filepath:
+    description: "Where the Twitter info for the matches are stored. Defaults to ./twitter-match-archive.csv"
+    required: false
+    default: "./twitter-match-archive.csv"
+  auto-artifact:
+    description: "Attach the two csv files as an artifact to this workflow. Default is true."
+    required: false
+    default: "true"
+  artifact-name:
+    description: "The name of the artifact. Default is csv-artifacts."
+    default: "csv-artifacts"
+outputs:
+  mastodon-csv-filepath:
+    description: "Mastodon CSV file path. This file can be downloaded and imported into Mastodon"
+    value: ${{ steps.export.outputs.mastodon-csv-filepath }}
+  twitter-csv-filepath:
+    description: "Twitter CSV file path. This file contains Twitter details about accounts that have Mastodon addresses"
+    value: ${{ steps.export.outputs.mastodon-csv-filepath }}
+runs:
+  using: "composite"
+  steps:
+    - id: export
+      shell: pwsh
+      run: |
+        Write-Output "Checking for BluebirdPS"
+
+        if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
+          Write-Output "BluebirdPS not installed, installing it now." #We recommend using the psmodulecache Action to save some time."
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module BluebirdPS
+        }
+
+        Write-Output "Running script"
+
+        if (-not $env:BLUEBIRDPS_API_KEY) {
+          throw '$env:BLUEBIRDPS_API_KEY is empty. Did you setup your secrets? Check the docs.'
+        }
+        if (-not $env:BLUEBIRDPS_API_SECRET) {
+          throw '$env:BLUEBIRDPS_API_SECRET is empty. Did you setup your secrets? Check the docs.'
+        }
+        if (-not $env:BLUEBIRDPS_ACCESS_TOKEN) {
+          throw '$env:BLUEBIRDPS_ACCESS_TOKEN is empty. Did you setup your secrets? Check the docs.'
+        }
+        if (-not $env:BLUEBIRDPS_ACCESS_TOKEN_SECRET) {
+          throw '$env:BLUEBIRDPS_ACCESS_TOKEN_SECRET is empty. Did you setup your secrets? Check the docs.'
+        }
+        # I dunno if a bearer token is always required, so skip check
+
+        if ("${{ inputs.include-private }}" -eq "false") {
+          $IncludePrivate = $false
+        } else {
+          $IncludePrivate = $true
+        }
+        $params = @{
+            AccountsFollowing          = ("${{ inputs.accounts-following }}" -split ",").Trim()
+            AccountFollowers          = ("${{ inputs.account-followers }}" -split ",").Trim()
+            ListMembers               = ("${{ inputs.list-members }}" -split ",").Trim()
+            ListFollowers             = ("${{ inputs.list-followers }}" -split ",").Trim()
+            SpecificTwitterAccounts   = ("${{ inputs.specific-twitter-accounts }}" -split ",").Trim()
+            Hashtags                  = ("${{ inputs.hashtags }}" -split ",").Trim()
+            IncludePrivate            = $IncludePrivate
+            My                        = ("${{ inputs.my }}" -split ",").Trim()
+            MySpecificListNames       = ("${{ inputs.my-specific-list-names }}" -split ",").Trim()
+            MySpecificListKeywords    = ("${{ inputs.my-specific-list-keywords }}" -split ",").Trim()
+            MastodonCsvFilepath       = ("${{ inputs.mastodon-csv-filepath }}" -split ",").Trim()
+            TwitterCsvFilepath        = ("${{ inputs.twitter-csv-filepath }}" -split ",").Trim()
+        }
+        ${{ github.action_path }}/main.ps1 @params
+
+    - uses: actions/upload-artifact@v3
+      if: inputs.auto-artifact == 'true'
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          ${{ steps.export.outputs.mastodon-csv-filepath }}
+          ${{ steps.export.outputs.twitter-csv-filepath }}

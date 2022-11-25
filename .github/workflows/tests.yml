@@ -1,0 +1,38 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  test-everywhere:
+    name: Test all platforms/versions
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v5.1
+        with:
+          modules-to-cache: BluebirdPS
+
+      - name: Run the action
+        id: export
+        uses: ./
+        with:
+          specific-twitter-accounts: cl
+          mastodon-csv-filepath: ./mastodon.csv
+          twitter-csv-filepath: ./twitter.csv
+          artifact-name: Csv-Artifact-${{ runner.os }}
+        env:
+          BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
+          BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
+          BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
+          BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
+          BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"

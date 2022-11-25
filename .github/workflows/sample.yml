@@ -1,0 +1,25 @@
+
+name: check for new accounts each day at midnight
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  check-exodus:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the action
+        id: export
+        uses: potatoqualitee/exodus@initial
+        with:
+          specific-twitter-accounts: cl, DataGrillen
+          accounts-following: DataGrillen, cl, SQLBits
+          list-members: "1491474973998915587, 1569973251161616385"
+          list-followers: "1569973251161616385"
+          hashtags: "#sqlfamily, pbifamily"
+        env:
+          BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
+          BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
+          BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
+          BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
+          BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"
