@@ -251,6 +251,8 @@ Get-TwitterFollowers: Sorry, you are not authorized to see the Tweet with pinned
 ## Contributing
 Pull requests are welcome!
 
+I'd love for someone with web skills to smash Exodus, Influx and Mastodon together to make it easy for people to visuallyu pick and choose who they want.
+
 ## TODO
 You tell me! I'm open to suggestions.
 
