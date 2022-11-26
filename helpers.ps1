@@ -167,10 +167,13 @@ function Find-Links {
         $script:checked += $user.UserName
         try {
             $ignored = "youtube.com", "medium.com", "withkoji.com", "counter.social", "twitter.com"
-            $results = $user | Find-TwitterMastodonLinks -Verbose -IgnoreUrl $ignored | Sort-Object -Unique
+            $results = $user | Find-TwitterMastodonLinks -Verbose -IgnoreDomain $ignored | Sort-Object -Unique
             foreach ($result in $results) {
                 $export = $true
                 $result.MastodonAccountAddress = $result.MastodonAccountAddress.Replace("/web", "")
+                if ($result.MastodonAccountAddress.EndsWith(".")) {
+                    $result.MastodonAccountAddress = $result.MastodonAccountAddress.Substring(0, $result.MastodonAccountAddress.Length - 1)
+                }
                 Write-Output "Found $($result.MastodonAccountAddress)"
                 $csv += $result
             }

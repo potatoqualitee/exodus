@@ -1,8 +1,8 @@
-name: Check Twitter community members for Mastodon addresses
+name: Check SQL Server Data Platform Community
 on:
   workflow_dispatch:
 jobs:
-  check-exodus:
+  check-sql:
     runs-on: ubuntu-latest
     steps:
     - name: Run the action
