@@ -175,7 +175,8 @@ My account has a 2 million Tweet quota per month and all of my wild testing has 
 
 Here is a workflow that uses every option. I use this for troubleshooting.
 
-```yamlname: check all fields and cache BluebirdPS
+```yaml
+name: check all fields and cache BluebirdPS
 on:
   push:
   workflow_dispatch:
