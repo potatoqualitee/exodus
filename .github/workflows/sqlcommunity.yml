@@ -1,0 +1,24 @@
+name: Check Twitter community members for Mastodon addresses
+on:
+  workflow_dispatch:
+jobs:
+  check-exodus:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run the action
+      id: export
+      uses: potatoqualitee/exodus@v1
+      with:
+        specific-twitter-accounts: DataGrillen, SQLBits, SQLServer, AzureSQL
+        account-followers: DataGrillen, datasaturdays
+        accounts-following: DataGrillen, SQLBits, AzureSQL, redgate
+        list-members: "1491474973998915587, 1569973251161616385"
+        list-followers: "1569973251161616385"
+        hashtags: "#sqlfamily"
+        include-private: false
+      env:
+        BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
+        BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
+        BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
+        BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
+        BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"
