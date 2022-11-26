@@ -175,8 +175,7 @@ My account has a 2 million Tweet quota per month and all of my wild testing has 
 
 Here is a workflow that uses every option. I use this for troubleshooting.
 
-```yaml
-name: check all fields and cache BluebirdPS
+```yamlname: check all fields and cache BluebirdPS
 on:
   push:
   workflow_dispatch:
@@ -191,28 +190,28 @@ jobs:
       with:
         modules-to-cache: BluebirdPS
 
-      - name: Run the action
-        id: export
-        uses: potatoqualitee/exodus@v1
-        with:
-          specific-twitter-accounts: PSConfEU, DataGrillen
-          account-followers: DataGrillen
-          accounts-following: DataGrillen, SQLBits
-          list-members: "1491474973998915587, 1569973251161616385"
-          list-followers: "1569973251161616385"
-          hashtags: "#sqlfamily, pbifamily"
-          include-private: false
-          my: all
-          my-specific-list-names: Birdie Favorites
-          my-specific-list-keywords: Birdie
-          mastodon-csv-filepath: ma.csv
-          twitter-csv-filepath: tw.csv
-        env:
-          BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
-          BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
-          BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
-          BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
-          BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"
+    - name: Run the action
+      id: export
+      uses: potatoqualitee/exodus@v1
+      with:
+        specific-twitter-accounts: PSConfEU, DataGrillen
+        account-followers: DataGrillen
+        accounts-following: DataGrillen, SQLBits
+        list-members: "1491474973998915587, 1569973251161616385"
+        list-followers: "1569973251161616385"
+        hashtags: "#sqlfamily, pbifamily"
+        include-private: false
+        my: all
+        my-specific-list-names: Birdie Favorites
+        my-specific-list-keywords: Birdie
+        mastodon-csv-filepath: ma.csv
+        twitter-csv-filepath: tw.csv
+      env:
+        BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
+        BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
+        BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
+        BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
+        BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"
 ```
 
 I ran this and it only used like 1500 of my 2 million tweet per month quota.
