@@ -1,0 +1,10 @@
+
+name: template
+on:
+  workflow_dispatch:
+jobs:
+  check-exodus:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nothing much
+        run: echo "hello"

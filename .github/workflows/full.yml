@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Run the action
         id: export
-        uses: potatoqualitee/exodus@main
+        uses: potatoqualitee/exodus@v1
         with:
           specific-twitter-accounts: PSConfEU, DataGrillen
           account-followers: DataGrillen
