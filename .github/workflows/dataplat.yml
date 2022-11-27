@@ -9,9 +9,9 @@ jobs:
       id: export
       uses: potatoqualitee/exodus@v1
       with:
-        specific-twitter-accounts: DataGrillen, SQLBits, SQLServer, AzureSQL, databash_live, DataTgif, passdatasummit
-        account-followers: DataGrillen, datasaturdays, databash_live, DataTgif, passdatasummit
-        accounts-following: DataGrillen, SQLBits, AzureSQL, SQLServer, redgate, databash_live, DataTgif, passdatasummit
+        specific-twitter-accounts: DataGrillen, SQLBits, SQLServer, AzureSQL, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, sqlservercentrl
+        account-followers: DataGrillen, datasaturdays, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio
+        accounts-following: DataGrillen, SQLBits, AzureSQL, SQLServer, redgate, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, sqlservercentrl, SQLServerMag
         list-members: "1491474973998915587, 1569973251161616385"
         list-followers: "1569973251161616385"
         hashtags: "#sqlfamily"
