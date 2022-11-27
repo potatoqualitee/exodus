@@ -1,4 +1,6 @@
+name: Basic test
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
@@ -17,11 +19,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install and cache PowerShell modules
-        uses: potatoqualitee/psmodulecache@v5.1
-        with:
-          modules-to-cache: BluebirdPS
-
       - name: Run the action
         id: export
         uses: ./
