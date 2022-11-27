@@ -1,6 +1,8 @@
 name: Check PowerBI Community
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "45 2 * * *"
 jobs:
   check-sql:
     runs-on: ubuntu-latest

@@ -1,6 +1,8 @@
 name: Check PowerShell Community
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
 jobs:
   check-pwsh:
     runs-on: ubuntu-latest

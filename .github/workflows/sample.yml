@@ -2,8 +2,6 @@
 name: check for new accounts each day at midnight
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 jobs:
   check-exodus:
     runs-on: ubuntu-latest
