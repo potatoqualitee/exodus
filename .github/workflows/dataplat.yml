@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Run the action
       id: export
-      uses: potatoqualitee/exodus@v1.1
+      uses: potatoqualitee/exodus@v1
       with:
         specific-twitter-accounts: DataGrillen, SQLBits, SQLServer, AzureSQL, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, sqlservercentrl, EightKbConf, KaySauter
         account-followers: DataGrillen, datasaturdays, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, EightKbConf
