@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Run the action
       id: export
-      uses: potatoqualitee/exodus@v1
+      uses: potatoqualitee/exodus@v1.1
       with:
         specific-twitter-accounts: MSPowerBI, PowerBISummit, GuyInACube, Azure_Synapse, PowerBITips
         account-followers: PowerBISummit

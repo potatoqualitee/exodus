@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Run the action
       id: export
-      uses: potatoqualitee/exodus@v1
+      uses: potatoqualitee/exodus@v1.1
       with:
         specific-twitter-accounts: PSConfEU, PSConfAsia, PowerShell_Team, PSHSummit, ATXPowershell, FrPSUG, PnwPowerShell, gnvpsug, rtpsug, NorwegianPUG, DenverCO_PSUG, NottsPSUG, ANZPSUG, hhpsug, JapanPSUG, IsraelPSUG, azPowershell, flpsug, SGPoShUG, chpsug, PSUGHannover, DuPSUG
         account-followers: PSConfEU, PSConfAsia, PSHSummit, PSSouthampton, ATXPowershell, FrPSUG, PnwPowerShell, gnvpsug, rtpsug, NorwegianPUG, DenverCO_PSUG, NottsPSUG, ANZPSUG, hhpsug, JapanPSUG, IsraelPSUG, azPowershell, flpsug, SGPoShUG, chpsug, PSUGHannover, DuPSUG

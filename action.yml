@@ -4,23 +4,26 @@ branding:
   color: "blue"
 description: "Helps Twitter communities find members on Mastodon."
 inputs:
+  specific-twitter-accounts:
+    description: "Search these specific Twitter accounts to see if they have a Mastodon account"
+    required: false
   accounts-following:
     description: "Check who these Twitter users are following and search the results for a Mastodon account"
     required: false
   account-followers:
     description: "Search the followers of these Twitter users for a Mastodon account"
     required: false
+  communities:
+    description: "Check who these Twitter users are following, check their followers and check their account for Mastodon addreses. An ideal community would be small-to-medium conference accounts like DataGrillen or PSConfEU."
+    required: false
+  hashtags:
+    description: "Search posts for these hashtags to see if the author has a Mastodon account"
+    required: false
   list-members:
     description: "Search the members of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
     required: false
   list-followers:
     description: "Search the followers of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
-    required: false
-  specific-twitter-accounts:
-    description: "Search these specific Twitter accounts to see if they have a Mastodon account"
-    required: false
-  hashtags:
-    description: "Search posts for these hashtags to see if the author has a Mastodon account"
     required: false
   include-private:
     description: "Include accounts marked private. False by default since this can be used to migrate communities."
@@ -92,12 +95,26 @@ runs:
         } else {
           $IncludePrivate = $true
         }
+
+        $acctsfollowing = ("${{ inputs.accounts-following }}" -split ",").Trim()
+        $acctfollowers = ("${{ inputs.account-followers }}" -split ",").Trim()
+        $specificaccounts = ("${{ inputs.specific-twitter-accounts }}" -split ",").Trim()
+        $communities = ("${{ inputs.communities }}" -split ",").Trim()
+
+        if ($communities) {
+          foreach ($community in $communities) {
+            $acctsfollowing += $community
+            $acctfollowers += $community
+            $specificaccounts += $community
+          }
+        }
+
         $params = @{
-            AccountsFollowing          = ("${{ inputs.accounts-following }}" -split ",").Trim()
-            AccountFollowers          = ("${{ inputs.account-followers }}" -split ",").Trim()
+            AccountsFollowing         = $acctsfollowing
+            AccountFollowers          = $acctfollowers
             ListMembers               = ("${{ inputs.list-members }}" -split ",").Trim()
             ListFollowers             = ("${{ inputs.list-followers }}" -split ",").Trim()
-            SpecificTwitterAccounts   = ("${{ inputs.specific-twitter-accounts }}" -split ",").Trim()
+            SpecificTwitterAccounts   = $specificaccounts
             Hashtags                  = ("${{ inputs.hashtags }}" -split ",").Trim()
             IncludePrivate            = $IncludePrivate
             My                        = ("${{ inputs.my }}" -split ",").Trim()

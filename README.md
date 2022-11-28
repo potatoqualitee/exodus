@@ -20,7 +20,7 @@ There are a ton of options available in this Action, but here's how to check you
 
 ```yaml
 - name: Check Twitter friends for Maston accounts
-  uses: potatoqualitee/exodus@v1
+  uses: potatoqualitee/exodus@v1.1
     with:
         my: follows, followers
     env:
@@ -123,7 +123,7 @@ jobs:
     steps:
       - name: Run the action
         id: export
-        uses: potatoqualitee/exodus@v1
+        uses: potatoqualitee/exodus@v1.1
         with:
           specific-twitter-accounts: cl, DataGrillen
           list-members: "1569973251161616385, 1491474973998915587"
@@ -150,7 +150,7 @@ jobs:
     steps:
       - name: Run the action
         id: export
-        uses: potatoqualitee/exodus@v1
+        uses: potatoqualitee/exodus@v1.1
         with:
           my: all
           include-private: true
@@ -193,7 +193,7 @@ jobs:
 
     - name: Run the action
       id: export
-      uses: potatoqualitee/exodus@v1
+      uses: potatoqualitee/exodus@v1.1
       with:
         specific-twitter-accounts: PSConfEU, DataGrillen
         account-followers: DataGrillen
