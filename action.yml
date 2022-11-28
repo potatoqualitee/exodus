@@ -96,12 +96,29 @@ runs:
           $IncludePrivate = $true
         }
 
-        $acctsfollowing = ("${{ inputs.accounts-following }}" -split ",").Trim()
-        $acctfollowers = ("${{ inputs.account-followers }}" -split ",").Trim()
-        $specificaccounts = ("${{ inputs.specific-twitter-accounts }}" -split ",").Trim()
-        $communities = ("${{ inputs.communities }}" -split ",").Trim()
+        function ConvertTo-Array ($str) {
+          # all input to be either commas or yaml arrays
+          $results = ($str -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
+          if ($results) {
+            $results.Trim()
+          }
+        }
+
+        $acctsfollowing = ConvertTo-Array "${{ inputs.accounts-following }}"
+        $acctfollowers = ConvertTo-Array "${{ inputs.account-followers }}"
+        $specificaccounts = ConvertTo-Array "${{ inputs.specific-twitter-accounts }}"
+        $communities = ConvertTo-Array "${{ inputs.communities }}"
 
         if ($communities) {
+          if (-not $acctsfollowing) {
+            $acctsfollowing = @()
+          }
+          if (-not $acctfollowers) {
+            $acctfollowers = @()
+          }
+          if (-not $specificaccounts) {
+            $specificaccounts = @()
+          }
           foreach ($community in $communities) {
             $acctsfollowing += $community
             $acctfollowers += $community
@@ -112,16 +129,16 @@ runs:
         $params = @{
             AccountsFollowing         = $acctsfollowing
             AccountFollowers          = $acctfollowers
-            ListMembers               = ("${{ inputs.list-members }}" -split ",").Trim()
-            ListFollowers             = ("${{ inputs.list-followers }}" -split ",").Trim()
+            ListMembers               = ConvertTo-Array "${{ inputs.list-members }}"
+            ListFollowers             = ConvertTo-Array "${{ inputs.list-followers }}"
             SpecificTwitterAccounts   = $specificaccounts
-            Hashtags                  = ("${{ inputs.hashtags }}" -split ",").Trim()
+            Hashtags                  = ConvertTo-Array "${{ inputs.hashtags }}"
             IncludePrivate            = $IncludePrivate
-            My                        = ("${{ inputs.my }}" -split ",").Trim()
-            MySpecificListNames       = ("${{ inputs.my-specific-list-names }}" -split ",").Trim()
-            MySpecificListKeywords    = ("${{ inputs.my-specific-list-keywords }}" -split ",").Trim()
-            MastodonCsvFilepath       = ("${{ inputs.mastodon-csv-filepath }}" -split ",").Trim()
-            TwitterCsvFilepath        = ("${{ inputs.twitter-csv-filepath }}" -split ",").Trim()
+            My                        = ConvertTo-Array "${{ inputs.my }}"
+            MySpecificListNames       = ConvertTo-Array "${{ inputs.my-specific-list-names }}"
+            MySpecificListKeywords    = ConvertTo-Array "${{ inputs.my-specific-list-keywords }}"
+            MastodonCsvFilepath       = ConvertTo-Array "${{ inputs.mastodon-csv-filepath }}"
+            TwitterCsvFilepath        = ConvertTo-Array "${{ inputs.twitter-csv-filepath }}"
         }
         ${{ github.action_path }}/main.ps1 @params
 

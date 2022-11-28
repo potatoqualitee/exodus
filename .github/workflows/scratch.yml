@@ -1,5 +1,6 @@
 name: Test Community
 on:
+  push:
   workflow_dispatch:
 jobs:
   check-sql:
@@ -10,6 +11,9 @@ jobs:
       uses: potatoqualitee/exodus@v1.1
       with:
         communities: DataGrillen, datasaturdays, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, EightKbConf
+        accounts-following: |
+          cl
+          psdbatools
       env:
         BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
         BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
