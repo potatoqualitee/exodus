@@ -66,14 +66,6 @@ runs:
     - id: export
       shell: pwsh
       run: |
-        Write-Output "Checking for BluebirdPS"
-
-        if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
-          Write-Output "BluebirdPS not installed, installing it now." #We recommend using the psmodulecache Action to save some time."
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module BluebirdPS
-        }
-
         Write-Output "Running script"
 
         if (-not $env:BLUEBIRDPS_API_KEY) {
@@ -107,7 +99,9 @@ runs:
           }
         }
 
-        "${{ inputs.accounts-following }}" | write-warning
+        "${{ inputs.accounts-following }}" | ForEach-Object -Process {
+          write-warning "$PSItem heee"
+        }
 
         $acctsfollowing = ConvertTo-Array "${{ inputs.accounts-following }}"
         write-warning "then..."
@@ -132,6 +126,14 @@ runs:
             $acctfollowers += $community
             $specificaccounts += $community
           }
+        }
+
+        Write-Output "Checking for BluebirdPS"
+
+        if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
+          Write-Output "BluebirdPS not installed, installing it now." #We recommend using the psmodulecache Action to save some time."
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module BluebirdPS
         }
 
         $params = @{
