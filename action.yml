@@ -97,7 +97,7 @@ runs:
         }
 
         function ConvertTo-Array ($str) {
-          if ($str -match "[") {
+          if ($str -match "\[") {
             $str = $str | ConvertFrom-Json
           }
           # all input to be either commas or yaml arrays
