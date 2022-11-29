@@ -255,9 +255,9 @@ I'd love for someone with web skills to smash Exodus, Influx and Mastodon togeth
 
 ## You may also enjoy...
 
-* [Mastodon Fossilize](https://github.com/marketplace/actions/mastodon-fossilize) - This Action will help you backup Mastodon account items to CSV files, including: Follows, Mutes, Account blocks, Lists, Bookmarks, Domain blocks, Followers, Posts
+* [Mastodon Fossilize](https://github.com/marketplace/actions/mastodon-fossilize) - This Action will help you backup Mastodon account items to CSV files, including: Follows, Mutes, Account blocks, Lists, Bookmarks, Domain blocks, Followers, and Posts
 * [Mastodon Influx](https://github.com/marketplace/actions/mastodon-influx) - This Action will help you import CSV files to Mastodon, including: Follows, Mutes, Account blocks, Lists, Bookmarks, and Domain blocks
-* [Using GitHub Pages to Setup an Alias on Mastodon](https://blog.netnerds.net/2022/11/alias-mastodon-github-pages/) - This tutorial can help you keep your social media presence without running your own Mastodon server.
+* [Using GitHub Pages to Setup an Alias on Mastodon](https://blog.netnerds.net/2022/11/alias-mastodon-github-pages/) - This tutorial can help you keep your social media presence without running your own Mastodon server
 
 ## TODO
 You tell me! I'm open to suggestions.
