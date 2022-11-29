@@ -121,6 +121,10 @@ runs:
           }
         }
 
+        ConvertTo-Array "${{ inputs.twitter-csv-filepath }}" | Write-Warning
+
+        return
+
         Write-Output "Checking for BluebirdPS"
 
         if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
