@@ -89,15 +89,14 @@ runs:
         }
 
         function ConvertTo-Array ($str) {
-          $results = $str.Split([System.Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
-
-          # all input to be either commas or yaml arrays
-          if ($results -isnot [array]) {
-            $results = ($results -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
+          if ($str -match [System.Environment]::NewLine) {
+            $results = $str.Split([System.Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+          } else {
+            $results = ($str -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
           }
 
           foreach ($result in $results) {
-            $result.Trim()
+            $result.TrimStart().TrimEnd()
           }
         }
 
