@@ -67,7 +67,8 @@ if ($MastodonCsvFilepath -notmatch "\\|\/") {
 
 foreach ($file in $TwitterCsvFilepath, $MastodonCsvFilepath) {
     $directory = Resolve-Path -Path (Split-Path -Path $file) -ErrorAction Ignore
-    if (-not (Test-Path -Path $directory)) {
+
+    if (-not $directory) {
         $directory = (New-Item -Type Directory -Path $directory).FullName
     }
 }
