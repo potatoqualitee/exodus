@@ -141,8 +141,8 @@ runs:
             My                        = ConvertTo-Array "${{ inputs.my }}"
             MySpecificListNames       = ConvertTo-Array "${{ inputs.my-specific-list-names }}"
             MySpecificListKeywords    = ConvertTo-Array "${{ inputs.my-specific-list-keywords }}"
-            MastodonCsvFilepath       = ("${{ inputs.mastodon-csv-filepath }}" -split ",").Trim()
-            TwitterCsvFilepath        = ("${{ inputs.twitter-csv-filepath }}" -split ",").Trim()
+            MastodonCsvFilepath       = ConvertTo-Array "${{ inputs.mastodon-csv-filepath }}"
+            TwitterCsvFilepath        = ConvertTo-Array "${{ inputs.twitter-csv-filepath }}"
         }
         ${{ github.action_path }}/main.ps1 @params
 
