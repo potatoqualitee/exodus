@@ -92,7 +92,9 @@ runs:
           $results = $str.Split([System.Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
 
           # all input to be either commas or yaml arrays
-          $results = ($results -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
+          if ($results -isnot [array]) {
+            $results = ($results -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
+          }
 
           foreach ($result in $results) {
             $result.Trim()
