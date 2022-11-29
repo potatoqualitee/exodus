@@ -71,6 +71,7 @@ Finally, create a workflow `.yml` file in your repositories `.github/workflows` 
 * `accounts-following` - Check who these Twitter users are following and search the results for a Mastodon account
 * `account-followers` - Search the followers of these Twitter users for a Mastodon account
 * `list-members` - Search the members of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize.
+* `communities` - Check who these Twitter users are following, check their followers and check their account for Mastodon addreses. An ideal community would be small-to-medium conference accounts like DataGrillen or PSConfEU.
 * `list-followers` - Search the followers of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize.
 * `specific-twitter-accounts` - Search these specific Twitter accounts to see if they have a Mastodon accoun
 * `hashtags` - Search posts for these hashtags to see if the author has a Mastodon account
@@ -94,6 +95,7 @@ Finally, create a workflow `.yml` file in your repositories `.github/workflows` 
 | --- | --- | --- |
 | accounts-following | cl | thedavecarroll, DataGrillen
 | account-followers | justinjbird7 | psdbatools, MSPowerBI
+| communities | PSConfEU | DataGrillen, SQLBits
 | list-members | "1569973251161616385" | "1491474973998915587, 1569973251161616385"
 | list-followers | "749356646665629696" | "749356646665629696, 1491474973998915587, 1569973251161616385"
 | specific-twitter-accounts | SQLBits | DataGrillen, SQLBits, SQLServer
@@ -109,10 +111,10 @@ Finally, create a workflow `.yml` file in your repositories `.github/workflows` 
 
 ### Example workflows
 
-Check for new accounts each day at midnight
+Check for new accounts at midnight
 
 ```yaml
-name: check for new accounts each day at midnight
+name: check for new accounts at midnight
 on:
   workflow_dispatch:
   schedule:
@@ -135,7 +137,7 @@ jobs:
           BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
 ```
 
-Checking all of your lists, follows and followers. This workflow will execute each day at midnight, when you initiate a workflow, or each time you push a comit to your repository.
+Checking all of your lists, follows and followers. This workflow will execute at midnight, when you initiate a workflow, or each time you push a comit to your repository.
 
 ```yaml
 name: check for new accounts
@@ -195,9 +197,10 @@ jobs:
       id: export
       uses: potatoqualitee/exodus@v1.1
       with:
-        specific-twitter-accounts: PSConfEU, DataGrillen
+        specific-twitter-accounts: PSConfEU
         account-followers: DataGrillen
         accounts-following: DataGrillen, SQLBits
+        communities: datasaturdays
         list-members: "1491474973998915587, 1569973251161616385"
         list-followers: "1569973251161616385"
         hashtags: "#sqlfamily, pbifamily"
@@ -223,11 +226,12 @@ Just add your `$env:BLUEBIRDPS_*` environmental variables to your `$profile` and
 
 ```powershell
 $params = @{
-    AccountsFollowing         = "DataGrillen", "SQLBits"
+    AccountsFollowing         = "cl", "SQLBits"
     AccountFollowers          = "DataGrillen"
+    Communities               = "datasaturdays"
     ListMembers               = "1491474973998915587", "1569973251161616385"
     ListFollowers             = "1569973251161616385"
-    SpecificTwitterAccounts   = "cl", "DataGrillen"
+    SpecificTwitterAccounts   = "DataGrillen"
     Hashtags                  = "#sqlfamily", "pbifamily"
     IncludePrivate            = $true
     My                        = "All"
