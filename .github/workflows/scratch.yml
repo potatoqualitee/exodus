@@ -10,7 +10,7 @@ jobs:
       id: export
       uses: potatoqualitee/exodus@v1.1
       with:
-        communities: DataGrillen, datasaturdays, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, EightKbConf
+        communities: databash_live, DataTgif, EightKbConf
         accounts-following: |
           cl
           psdbatools

@@ -99,8 +99,8 @@ runs:
         function ConvertTo-Array ($str) {
           # all input to be either commas or yaml arrays
           $results = ($str -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
-          if ($results) {
-            $results.Trim()
+          foreach ($result in $results) {
+            $result.Trim()
           }
         }
 
