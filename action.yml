@@ -4,23 +4,26 @@ branding:
   color: "blue"
 description: "Helps Twitter communities find members on Mastodon."
 inputs:
+  specific-twitter-accounts:
+    description: "Search these specific Twitter accounts to see if they have a Mastodon account"
+    required: false
   accounts-following:
     description: "Check who these Twitter users are following and search the results for a Mastodon account"
     required: false
   account-followers:
     description: "Search the followers of these Twitter users for a Mastodon account"
     required: false
+  communities:
+    description: "Check who these Twitter users are following, check their followers and check their account for Mastodon addreses. An ideal community would be small-to-medium conference accounts like DataGrillen or PSConfEU."
+    required: false
+  hashtags:
+    description: "Search posts for these hashtags to see if the author has a Mastodon account"
+    required: false
   list-members:
     description: "Search the members of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
     required: false
   list-followers:
     description: "Search the followers of these Twitter list IDs for a Mastodon account. This has to be one or more numbers in quotes or the Action will automatically turn it into an E notation which Twitter cannot recognize."
-    required: false
-  specific-twitter-accounts:
-    description: "Search these specific Twitter accounts to see if they have a Mastodon account"
-    required: false
-  hashtags:
-    description: "Search posts for these hashtags to see if the author has a Mastodon account"
     required: false
   include-private:
     description: "Include accounts marked private. False by default since this can be used to migrate communities."
@@ -63,14 +66,6 @@ runs:
     - id: export
       shell: pwsh
       run: |
-        Write-Output "Checking for BluebirdPS"
-
-        if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
-          Write-Output "BluebirdPS not installed, installing it now." #We recommend using the psmodulecache Action to save some time."
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module BluebirdPS
-        }
-
         Write-Output "Running script"
 
         if (-not $env:BLUEBIRDPS_API_KEY) {
@@ -92,19 +87,62 @@ runs:
         } else {
           $IncludePrivate = $true
         }
+
+        function ConvertTo-Array ($str) {
+          if ($str -match [System.Environment]::NewLine) {
+            $results = $str.Split([System.Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+          } else {
+            $results = ($str -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
+          }
+
+          foreach ($result in $results) {
+            $result.TrimStart().TrimEnd()
+          }
+        }
+
+        $acctsfollowing = ConvertTo-Array "${{ inputs.accounts-following }}"
+        $acctfollowers = ConvertTo-Array "${{ inputs.account-followers }}"
+        $specificaccounts = ConvertTo-Array "${{ inputs.specific-twitter-accounts }}"
+        $communities = ConvertTo-Array "${{ inputs.communities }}"
+
+        if ($communities) {
+          if (-not $acctsfollowing) {
+            $acctsfollowing = @()
+          }
+          if (-not $acctfollowers) {
+            $acctfollowers = @()
+          }
+          if (-not $specificaccounts) {
+            $specificaccounts = @()
+          }
+          foreach ($community in $communities) {
+            $acctsfollowing += $community
+            $acctfollowers += $community
+            $specificaccounts += $community
+          }
+        }
+
+        Write-Output "Checking for BluebirdPS"
+
+        if (-not (Get-Command -ErrorAction Ignore Get-TwitterFriends)) {
+          Write-Output "BluebirdPS not installed, installing it now." #We recommend using the psmodulecache Action to save some time."
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module BluebirdPS
+        }
+
         $params = @{
-            AccountsFollowing          = ("${{ inputs.accounts-following }}" -split ",").Trim()
-            AccountFollowers          = ("${{ inputs.account-followers }}" -split ",").Trim()
-            ListMembers               = ("${{ inputs.list-members }}" -split ",").Trim()
-            ListFollowers             = ("${{ inputs.list-followers }}" -split ",").Trim()
-            SpecificTwitterAccounts   = ("${{ inputs.specific-twitter-accounts }}" -split ",").Trim()
-            Hashtags                  = ("${{ inputs.hashtags }}" -split ",").Trim()
+            AccountsFollowing         = $acctsfollowing
+            AccountFollowers          = $acctfollowers
+            ListMembers               = ConvertTo-Array "${{ inputs.list-members }}"
+            ListFollowers             = ConvertTo-Array "${{ inputs.list-followers }}"
+            SpecificTwitterAccounts   = $specificaccounts
+            Hashtags                  = ConvertTo-Array "${{ inputs.hashtags }}"
             IncludePrivate            = $IncludePrivate
-            My                        = ("${{ inputs.my }}" -split ",").Trim()
-            MySpecificListNames       = ("${{ inputs.my-specific-list-names }}" -split ",").Trim()
-            MySpecificListKeywords    = ("${{ inputs.my-specific-list-keywords }}" -split ",").Trim()
-            MastodonCsvFilepath       = ("${{ inputs.mastodon-csv-filepath }}" -split ",").Trim()
-            TwitterCsvFilepath        = ("${{ inputs.twitter-csv-filepath }}" -split ",").Trim()
+            My                        = ConvertTo-Array "${{ inputs.my }}"
+            MySpecificListNames       = ConvertTo-Array "${{ inputs.my-specific-list-names }}"
+            MySpecificListKeywords    = ConvertTo-Array "${{ inputs.my-specific-list-keywords }}"
+            MastodonCsvFilepath       = ConvertTo-Array "${{ inputs.mastodon-csv-filepath }}"
+            TwitterCsvFilepath        = ConvertTo-Array "${{ inputs.twitter-csv-filepath }}"
         }
         ${{ github.action_path }}/main.ps1 @params
 
