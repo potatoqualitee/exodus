@@ -96,7 +96,7 @@ runs:
           $IncludePrivate = $true
         }
 
-        function ConvertTo-Array ($str) {
+        function ConvertTo-Array ([string[]]$str) {
           # all input to be either commas or yaml arrays
           $results = ($str -split ',').Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries)
           foreach ($result in $results) {

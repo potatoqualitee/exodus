@@ -10,7 +10,7 @@ jobs:
       id: export
       uses: potatoqualitee/exodus@v1.1
       with:
-        communities: databash_live, DataTgif, EightKbConf
+        communities: databash_live, DataTgif
         accounts-following: |
           cl
           psdbatools
