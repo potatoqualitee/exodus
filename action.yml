@@ -105,6 +105,8 @@ runs:
 
         $acctsfollowing = ConvertTo-Array "${{ inputs.accounts-following }}"
         write-warning "then..."
+        Get-Member -InputObject $acctsfollowing
+        $acctsfollowing.GetType()
         $acctsfollowing
         return
         $acctfollowers = ConvertTo-Array "${{ inputs.account-followers }}"
