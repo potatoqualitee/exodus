@@ -111,7 +111,7 @@ runs:
 
         $acctsfollowing = ConvertTo-Array "${{ inputs.accounts-following }}"
         write-warning "then..."
-        acctsfollowing
+        $acctsfollowing
         return
         $acctfollowers = ConvertTo-Array "${{ inputs.account-followers }}"
         $specificaccounts = ConvertTo-Array "${{ inputs.specific-twitter-accounts }}"
