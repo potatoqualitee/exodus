@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Run the action
       id: export
-      uses: potatoqualitee/exodus@v1
+      uses: potatoqualitee/exodus@v1.1
       with:
         communities: DataGrillen, SQLBits, SQLServer, AzureSQL, databash_live, DataTgif, passdatasummit, sqlsaturday, groupbyconf, SQLServerRadio, sqlservercentrl, EightKbConf, psdbatools, datasaturdays
         accounts-following: AzureSQL, SQLServer, redgate, sqlservercentrl, SQLServerMag
