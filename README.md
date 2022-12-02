@@ -36,7 +36,7 @@ This will save two files for you to work with: `./mastodon-import.csv` and `./tw
 Part of a community and want to find your people? Check conference and brand accounts with a reasonable (< 20k) number of followers. That's what we do in the [Data Platform and PowerShell communities](https://github.com/dataplat/mastodon). Here's an example for the Data Platform community:
 
 ```yaml
-- name: Check Twitter communities for Maston accounts
+- name: Check Data Platform communities on Twitter for Maston accounts
   uses: potatoqualitee/exodus@v1.1
     with:
         communities: DataGrillen, SQLBits, EightKbConf, psdbatools, datasaturdays, PASSDataSummit
