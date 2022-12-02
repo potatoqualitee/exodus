@@ -33,6 +33,21 @@ There are a ton of options available in this Action, but here's how to check you
 
 This will save two files for you to work with: `./mastodon-import.csv` and `./twitter-match-archive.csv`.
 
+Part of a community and want to find your people? Check conference and brand accounts with a reasonable (< 20k) number of followers. That's what we do in the [Data Platform and PowerShell communities](https://github.com/dataplat/mastodon). Here's an example for the Data Platform community:
+
+```yaml
+- name: Check Twitter communities for Maston accounts
+  uses: potatoqualitee/exodus@v1.1
+    with:
+        communities: DataGrillen, SQLBits, EightKbConf, psdbatools, datasaturdays, PASSDataSummit
+    env:
+        BLUEBIRDPS_API_KEY: "${{ secrets.BLUEBIRDPS_API_KEY }}"
+        BLUEBIRDPS_API_SECRET: "${{ secrets.BLUEBIRDPS_API_SECRET }}"
+        BLUEBIRDPS_ACCESS_TOKEN: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN }}"
+        BLUEBIRDPS_ACCESS_TOKEN_SECRET: "${{ secrets.BLUEBIRDPS_ACCESS_TOKEN_SECRET }}"
+        BLUEBIRDPS_BEARER_TOKEN: "${{ secrets.BLUEBIRDPS_BEARER_TOKEN }}"
+```
+
 If you're wondering about the environmental variables, they are detailed next in the [Pre-requisites](#pre-requisites) section.
 
 # Usage
